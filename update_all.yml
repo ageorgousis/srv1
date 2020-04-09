@@ -1,0 +1,7 @@
+---
+- name: upgrade all packages
+  hosts: srv1
+
+  tasks:
+  - name: upgrade all packages
+    yum: name='*' state=latest

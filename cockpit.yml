@@ -1,0 +1,50 @@
+---
+- name: install cockpit
+  hosts: srv1
+
+  tasks:
+#  - name: upgrade all packages
+#    yum: name=cockpit state=latest
+
+
+  - name: Install cockpit
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - cockpit
+    - cockpit-ws # Cockpit Web Service
+    - cockpit-selinux # Cockpit SELinux package
+    - cockpit-bridge # Cockpit bridge server-side component
+    - cockpit-dashboard # Cockpit remote servers and dashboard
+    - cockpit-docker # Cockpit user interface for Docker containers
+    - cockpit-machines # Cockpit user interface for virtual machines
+    - cockpit-packagekit # Cockpit user interface for package updates
+    - cockpit-storaged # Cockpit user interface for storage, using Storaged
+    - cockpit-networkmanager # Cockpit user interface for networking, using NetworkManager
+    - cockpit-system # Cockpit admin interface package for configuring and troubleshooting a system
+
+  #
+  # start and enable cockpit
+  #
+
+  - name: start cockpit
+    systemd:
+      name: cockpit
+      state: started
+
+  - name: enable cockpit.socket
+    systemd:
+      name: cockpit.socket
+      enabled: yes
+
+  #
+  # set firewall rules for cockpit
+  #
+
+  - name: Firewall rules
+    firewalld:
+      service: cockpit
+      permanent: true
+      state: enabled
+      immediate: yes
