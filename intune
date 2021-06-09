@@ -1,0 +1,10 @@
+
+Install-Module -Name WindowsAutoPilotIntune 
+
+Install-Script -Name Get-WindowsAutoPilotInfo
+
+cd C:\Program Files\WindowsPowerShell\Scripts
+
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+./Get-WindowsAutopilotInfo.ps1 -online
